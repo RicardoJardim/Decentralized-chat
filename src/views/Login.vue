@@ -46,6 +46,7 @@ export default defineComponent({
   },
   methods: {
     increment() {
+      console.log(store.state.count);
       store.commit("increment");
       console.log(store.state.count);
     },
