@@ -8,13 +8,12 @@ import "gun/sea";
 import "gun/axe";
 
 // Database
-export const db = GUN();
+export const db = GUN([
+  "https://gun-manhattan.herokuapp.com/gun",
+  "http://localhost:8765/gun",
+]);
 
 // Gun User
 export const user = db.user().recall({ sessionStorage: true });
-
-/* user.get("alias").on((v) => {
-    UserName = v;
-}); */
 
 createApp(App).use(store).use(router).mount("#app");

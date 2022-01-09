@@ -45,20 +45,15 @@ export default defineComponent({
     };
   },
   methods: {
-    increment() {
-      console.log(store.state.count);
-      store.commit("increment");
-      console.log(store.state.count);
-    },
     async login() {
       user.auth(this.username, this.password, async () => {
-        const alias = await user.get("alias"); // username string
-
+        const alias = await user.get("alias");
+        console.log(`signed in as vuex ${store.getters.getUsername}`);
         console.log(`signed in as ${alias}`);
+        store.commit("setUsername", alias);
       });
     },
     async signup() {
-      this.increment();
       console.log(this.username, this.password);
       user.create(
         this.username,
@@ -67,6 +62,7 @@ export default defineComponent({
           if ("err" in data) {
             alert(data.err);
           } else {
+            store.commit("setUsername", this.username);
             this.login();
           }
         }
@@ -104,7 +100,8 @@ export default defineComponent({
 }
 
 .button:hover {
-  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
+    0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
 
 @media screen and (min-width: 550px) {

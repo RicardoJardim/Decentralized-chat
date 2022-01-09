@@ -3,12 +3,17 @@ import { createStore } from "vuex";
 const store = createStore({
   state() {
     return {
-      count: 0,
+      username: "",
     };
   },
+  getters: {
+    getUsername(state: { username: string }) {
+      return state.username;
+    },
+  },
   mutations: {
-    increment(state: { count: number }): void {
-      state.count++;
+    setUsername(state: { username: string }, name: string): void {
+      state.username = name;
     },
   },
 });
