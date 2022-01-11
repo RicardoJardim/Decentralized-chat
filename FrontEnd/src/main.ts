@@ -8,10 +8,9 @@ import "gun/sea";
 import "gun/axe";
 
 // Database
-export const db = GUN([
-  "https://gun-manhattan.herokuapp.com/gun",
-  "http://localhost:8765/gun",
-]);
+export const db = GUN({
+  peers: ["http://localhost:3030/gun"],
+});
 
 // Gun User
 export const user = db.user().recall({ sessionStorage: true });
