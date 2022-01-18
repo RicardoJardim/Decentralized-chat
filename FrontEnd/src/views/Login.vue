@@ -20,7 +20,13 @@
           <label for="password">Password</label>
         </div>
         <div class="col-75">
-          <input name="password" v-model="password" type="password" />
+          <input
+            name="password"
+            minlength="3"
+            maxlength="16"
+            v-model="password"
+            type="password"
+          />
         </div>
       </div>
       <button class="button" v-on:click="login">Login</button>
@@ -38,7 +44,7 @@ import store from "../store";
 export default defineComponent({
   name: "Home",
   components: {},
-  data(): { username: string; password: string } {
+  data() {
     return {
       username: "",
       password: "",
@@ -48,13 +54,12 @@ export default defineComponent({
     async login() {
       user.auth(this.username, this.password, async () => {
         const alias = await user.get("alias");
-        console.log(`signed in as vuex ${store.getters.getUsername}`);
-        console.log(`signed in as ${alias}`);
         store.commit("setUsername", alias);
+        /* this.$router.push({ name: "chat", params: { userId: "123" } }); */
+        this.$router.push({ name: "Chat" });
       });
     },
     async signup() {
-      console.log(this.username, this.password);
       user.create(
         this.username,
         this.password,
