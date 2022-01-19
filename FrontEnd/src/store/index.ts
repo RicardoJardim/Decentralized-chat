@@ -1,18 +1,25 @@
 import { createStore } from "vuex";
 
+interface Store {
+  username: string;
+}
+
 const store = createStore({
-  state() {
+  state(): Store {
     return {
       username: "",
     };
   },
   getters: {
-    getUsername(state: { username: string }) {
+    getUsername(state: Store): string {
       return state.username;
+    },
+    checkAuth(state: Store): boolean {
+      return state.username != "" ? true : false;
     },
   },
   mutations: {
-    setUsername(state: { username: string }, name: string): void {
+    setUsername(state: Store, name: string): void {
       state.username = name;
     },
   },

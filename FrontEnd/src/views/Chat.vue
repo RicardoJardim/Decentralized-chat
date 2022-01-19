@@ -19,6 +19,7 @@ import { SEA } from "gun";
 
 import store from "../store";
 import TextBox from "@/dto/TextBox.ts";
+
 const key = "#123";
 export default defineComponent({
   name: "Home",
@@ -44,28 +45,25 @@ export default defineComponent({
         message: this.text + "",
         when: new Date().getTime(),
       });
+
       this.text = "";
+    },
+    scrollDown(): void {
+      let container = document.getElementById("chat");
+      if (container) container.scrollTop = container.scrollHeight;
     },
     updateMessages(data: TextBox) {
       if (data.message) {
         this.messages = [...this.messages.slice(-100), data].sort(
           (a: TextBox, b: TextBox) => a.when - b.when
         );
-        let el = document.getElementById("chat");
-        el?.scrollTo(0, el?.scrollHeight);
       }
     },
   },
+  updated() {
+    this.scrollDown();
+  },
   created() {
-    var match = {
-      // lexical queries are kind of like a limited RegEx or Glob.
-      ".": {
-        // property selector
-        ">": new Date(+new Date() - 1 * 1000 * 60 * 60 * 3).toISOString(), // find any indexed property larger ~3 hours ago
-      },
-      "-": 1, // filter in reverse
-    };
-
     db.get("chat")
       .map()
       .once(async (data, id) => {
@@ -81,6 +79,10 @@ export default defineComponent({
           this.updateMessages(message);
         }
       });
+  },
+  mounted() {
+    this.scrollDown();
+    console.log("mounterd");
   },
 });
 </script>
