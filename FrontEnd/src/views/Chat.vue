@@ -1,19 +1,31 @@
 <template>
-  <div id="wrapper">
-    <div id="chat">
-      <ChatComponent :textbox="el" v-for="el in messages" :key="el.id" />
-    </div>
+  <div class="chatComp">
+    <div id="wrapper">
+      <div id="chat">
+        <BallonComponent :textbox="el" v-for="el in messages" :key="el.id" />
+      </div>
 
-    <div id="box">
-      <input name="text" minlength="1" v-model="text" />
-      <button v-on:click="sendMessage">send message</button>
+      <div class="container">
+        <textarea
+          id="text"
+          name="text"
+          minlength="1"
+          placeholder="Aa"
+          v-model="text"
+          rows="3"
+          cols="40"
+        />
+        <button v-on:click="sendMessage" id="send">
+          <img src="../assets/send.png" alt="send" />
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted } from "vue";
-import ChatComponent from "@/components/ChatComponent.vue";
+import BallonComponent from "@/components/BallonComponent.vue";
 import { user, db } from "@/main";
 import { SEA } from "gun";
 
@@ -23,7 +35,7 @@ import TextBox from "@/dto/TextBox.ts";
 const key = "#123";
 export default defineComponent({
   name: "Home",
-  components: { ChatComponent },
+  components: { BallonComponent },
   data(): { text: string; messages: TextBox[] } {
     return {
       text: "",
@@ -88,16 +100,27 @@ export default defineComponent({
 </script>
 
 <style>
-#wrapper {
+.chatComp {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-flow: column;
 }
+#wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+  margin-top: 3vh;
+  height: 90vh;
+  width: 65vw;
+}
 #chat {
-  height: 80vh;
-  width: 60vw;
+  padding: 1vw;
+  width: 100%;
+  min-height: 70vh;
   overflow: auto;
+  background-color: #d9d9d9;
 }
 
 #box {
@@ -105,5 +128,116 @@ export default defineComponent({
   justify-content: center;
   align-items: center;
   flex-flow: column;
+}
+
+.container {
+  display: flex;
+  padding: 1vw;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-flow: row wrap;
+  gap: 10px;
+  width: 100%;
+  background-color: #42b983;
+  box-shadow: 2px -5px 7px 0px grey;
+  border-radius: 0px 00px 10px 10px;
+}
+
+.container > textarea {
+  padding: 12px 40px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 25px;
+  width: 80%;
+  resize: none;
+}
+
+#send {
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 12px 20px;
+  border-radius: 25px;
+  background-color: green;
+}
+#send:focus {
+  border-color: blue;
+}
+
+#send > img {
+  width: 24px;
+  height: auto;
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  -webkit-filter: invert(1);
+  filter: invert(1);
+  padding: 0px 10px;
+}
+
+#send:hover {
+  opacity: 0.8;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+@media screen and (max-width: 600px) {
+  #wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column;
+    margin-top: 3vh;
+    height: 93vh;
+    width: 90vw;
+  }
+
+  .container > textarea {
+    padding: 12px 40px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    border-radius: 25px;
+    width: 70%;
+  }
+
+  #send {
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 12px 15px;
+    border-radius: 25px;
+    background-color: green;
+  }
+
+  #send > img {
+    width: 20px;
+    height: auto;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    -webkit-filter: invert(1);
+    filter: invert(1);
+    padding: 0px 5px;
+  }
 }
 </style>
